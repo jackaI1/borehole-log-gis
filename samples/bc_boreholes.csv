@@ -1,0 +1,18 @@
+BOREHOLE_SITE_ID,BOREHOLE_NAME,BOREHOLE_LITHOLOGY_ID,LATITUDE,LONGITUDE,TOTAL_DEPTH,FROM_UNIT_DEPTH,TO_UNIT_DEPTH,UNIT_DESCRIPTION
+13,98-14,3260,49.271139,-123.106944,5.5,0.0,0.5,"sand (fine to medium) and silt (fill), yellow/brown"
+13,98-14,3261,49.271139,-123.106944,5.5,0.5,1.5,"silt (fill), brown and yellow"
+13,98-14,3262,49.271139,-123.106944,5.5,1.5,2.4,wood (suspected piling)
+13,98-14,3263,49.271139,-123.106944,5.5,2.4,4.0,"silt (fill), grey"
+13,98-14,3264,49.271139,-123.106944,5.5,4.0,4.5,"silt (fill), grey-green"
+13,98-14,3265,49.271139,-123.106944,5.5,4.5,5.5,"silt, sandy (fine), grey"
+17,BH2MA,2731,49.18925,-123.141861,6.9,0.0,1.5,"sand, brown"
+17,BH2MA,2732,49.18925,-123.141861,6.9,1.5,3.1,"silt, dark grey"
+17,BH2MA,2733,49.18925,-123.141861,6.9,3.1,4.5,"sand, silty, dark grey"
+17,BH2MA,2734,49.18925,-123.141861,6.9,4.5,6.9,"sand, grey"
+21,BH7,715,49.278387,-123.115475,3.2,0.0,0.6,"sand and gravel (fill), grey"
+21,BH7,716,49.278387,-123.115475,3.2,0.6,2.4,"gravel (fill), dark brown"
+21,BH7,717,49.278387,-123.115475,3.2,2.4,2.8,"sand (medium), brown"
+21,BH7,718,49.278387,-123.115475,3.2,2.8,3.2,"till, brown"
+28,BH01-1,2096,49.334499,-123.179552,6.0,0.0,1.8,"sand (fine to medium) (fill), greyish brown"
+28,BH01-1,2097,49.334499,-123.179552,6.0,1.8,4.9,"sand (fine), silty, brown grey"
+28,BH01-1,2098,49.334499,-123.179552,6.0,5.9,6.0,"sand (fine to medium) (till), grey"
