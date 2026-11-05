@@ -1,0 +1,58 @@
+name: Borehole checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - run: uv sync --frozen --extra dev
+      - run: uv run ruff check .
+      - run: uv run pytest -q
+      - run: uv build
+  qgis:
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    env:
+      QT_QPA_PLATFORM: offscreen
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Generate checked public-data exports
+        run: |
+          uv run borehole-gis samples/bc_boreholes.csv --format bc-csv --depth-unit m --out build/bc
+          uv run borehole-gis samples/bgs_bh01.ags --format ags --crs EPSG:27700 --output-crs EPSG:27700 --out build/ags
+      - name: Install QGIS Python
+        run: |
+          # The runner's Azure HTTP mirror can be very slow for the QGIS libraries.
+          printf '%s\n' \
+            'deb https://archive.ubuntu.com/ubuntu noble main universe' \
+            'deb https://archive.ubuntu.com/ubuntu noble-updates main universe' \
+            'deb https://security.ubuntu.com/ubuntu noble-security main universe' > /tmp/borehole-ubuntu.list
+          sudo apt-get -o Dir::Etc::sourcelist=/tmp/borehole-ubuntu.list -o Dir::Etc::sourceparts=- -o Acquire::Retries=2 -o Acquire::https::Timeout=30 update -qq
+          sudo apt-get -o Dir::Etc::sourcelist=/tmp/borehole-ubuntu.list -o Dir::Etc::sourceparts=- -o Acquire::Retries=2 -o Acquire::https::Timeout=30 install -y --no-install-recommends python3-qgis python3-pil
+      - name: Render and reopen the actual QGIS project
+        run: |
+          /usr/bin/python3 scripts/qgis_map.py build/bc
+          /usr/bin/python3 scripts/verify_qgis.py build/bc
+          /usr/bin/python3 scripts/qgis_map.py build/ags
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-borehole-example
+          path: build/

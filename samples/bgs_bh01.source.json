@@ -1,0 +1,15 @@
+{
+  "publisher": "British Geological Survey / UKRI",
+  "source_url": "https://raw.githubusercontent.com/BritishGeologicalSurvey/pyagsapi/b223b48803d8feb07897ae468b455842cbf1790d/test/files/real/19-1316%20-%202020-03-02%201554%20-%20Final%20-%201.ags",
+  "source_commit": "b223b48803d8feb07897ae468b455842cbf1790d",
+  "source_sha256": "032d7cf03a443ee1b78304d118971ce95eaedb8678d6a6e32e60258a5f9d2122",
+  "retrieved_at": "2026-11-05T22:53:37.018772+00:00",
+  "hole_id": "BH01",
+  "coordinate_crs": "EPSG:27700",
+  "license": "Open Government Licence v3.0",
+  "license_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+  "license_evidence": "https://britishgeologicalsurvey.github.io/pyagsapi/#example-files",
+  "attribution": "Contains data supplied by Natural Environment Research Council. Contains public sector information licensed under the Open Government Licence v3.0.",
+  "transformations": "Selected BH01 LOCA, GEOL and ISPT cells unchanged. Other fields omitted. PROJ, TRAN, ABBR, TYPE and UNIT replaced with excerpt metadata. Not a full copy of the original AGS submission.",
+  "sha256": "e5f783973fe6895824092484d3cfc91eec7c64cb0494617f5b78a11428f6702a"
+}
