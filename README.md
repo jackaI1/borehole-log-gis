@@ -4,12 +4,14 @@ I built a borehole log checker because I wanted to see where public ground recor
 
 I can give it a public BC borehole CSV or an AGS4 file, a common text format for exchanging ground investigation records. It produces a readable error report, layer summaries, a location map file, and a picture of each log. When penetration test results are available, it plots the recorded N-values, the number of blows measured in a Standard Penetration Test (SPT).
 
+I also use this project to learn how ground and water calculations fit together. I can assess recovered rock-core pieces, fit a pumping test to estimate aquifer properties, compare sewer and street flooding, check a pipe network's pressures and fire flow, and generate river profiles around a culvert. The [ground and water guide](docs/water-models.md) has exact commands, sample inputs and the limits of each calculation. These are reproducible learning examples, not a design for a real site.
+
 To try the included public BC data with Python 3.11 or newer and [uv](https://docs.astral.sh/uv/):
 
 ```sh
 git clone https://github.com/jackaI1/borehole-log-gis.git
 cd borehole-log-gis
-uv sync --extra dev
+uv sync --extra dev --extra water
 uv run borehole-gis samples/bc_boreholes.csv --format bc-csv --depth-unit m --out build/bc
 ```
 
@@ -68,7 +70,7 @@ uv run ruff check .
 uv build
 ```
 
-The 61 pytest cases cover both real samples, malformed records, missing groups and headings, units, depth conversion, overlaps, gaps, nested intervals, orphan records, SPT values and end-to-end GeoPackage and image exports. GitHub Actions runs these checks on Python 3.11, 3.12 and 3.13. A separate Ubuntu job installs real QGIS, renders both maps, and reopens the saved BC project to check its layer, CRS, styling, labels and layout. It also checks that the exported PDF and PNG contain output.
+The original 61 pytest cases cover both real samples, malformed records, missing groups and headings, units, depth conversion, overlaps, gaps, nested intervals, orphan records, SPT values and end-to-end GeoPackage and image exports. GitHub Actions runs these checks on Python 3.11, 3.12 and 3.13. The expanded suite has 108 cases including core-run checks, pumping and recovery fits, real EPANET runs and river-profile extraction. A separate Ubuntu job installs real QGIS, renders both maps, and reopens the saved BC project to check its layer, CRS, styling, labels and layout. It also checks that the exported PDF and PNG contain output.
 
 
 ## Other things I've built here

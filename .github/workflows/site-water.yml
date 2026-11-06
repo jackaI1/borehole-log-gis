@@ -1,0 +1,52 @@
+name: Ground and water models
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.11'
+      - run: uv sync --frozen --extra dev --extra water
+      - run: uv run pytest -q
+      - run: uv run ruff check .
+      - run: uv run borehole-gis samples/bgs_bh01.ags --format ags --crs EPSG:27700 --output-crs EPSG:27700 --core-runs samples/core_runs.json --out build/core
+      - run: uv run site-water pumping --csv samples/pumping/drawdown.csv --metadata samples/pumping/pumping.json --out build/pumping
+      - run: uv run site-water pumping --csv samples/pumping/recovery.csv --metadata samples/pumping/recovery.json --out build/recovery
+      - run: uv run site-water water-demo --inp build/water/zone.inp
+      - run: uv run site-water water --inp build/water/zone.inp --out build/water/results
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ground-water-examples
+          path: build/
+  hecras:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.11'
+      - name: Install real HEC-RAS 6.6 on disposable runner
+        shell: pwsh
+        run: |
+          $url = 'https://github.com/HydrologicEngineeringCenter/hec-downloads/releases/download/1.0.33/HEC-RAS_66_Setup.exe'
+          Invoke-WebRequest $url -OutFile "$env:RUNNER_TEMP/hecras.exe"
+          $process = Start-Process "$env:RUNNER_TEMP/hecras.exe" -ArgumentList '/s', '/v"/qn /norestart"' -Wait -PassThru
+          if ($process.ExitCode -notin @(0, 3010)) { throw "HEC-RAS installation failed: $($process.ExitCode)" }
+      - run: uv sync --frozen --extra dev --extra water
+      - name: Generate and solve the actual channel and culvert models
+        run: uv run python scripts/run_river.py --out build/river
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hecras-steady-profiles
+          path: build/river/

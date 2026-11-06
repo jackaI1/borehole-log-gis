@@ -1,0 +1,24 @@
+{
+  "control": {
+    "profiles": 3,
+    "cross_sections": 7,
+    "comparisons": 21,
+    "max_difference_m": 0.0005148018346829986,
+    "all_comparisons_pass": true,
+    "overtopped_sections": 7
+  },
+  "culvert": {
+    "profiles": 3,
+    "cross_sections": 7,
+    "comparisons": 18,
+    "max_difference_m": 0.0005148018346829986,
+    "all_comparisons_pass": true,
+    "overtopped_sections": 11
+  },
+  "provenance": {
+    "run": "https://github.com/jackaI1/borehole-log-gis/actions/runs/42313239893",
+    "commit": "b3f73e9",
+    "inputs": "src/borehole_gis/river.py generated synthetic SI channel and culvert",
+    "engine": "HEC-RAS 6.6, Windows GitHub Actions"
+  }
+}

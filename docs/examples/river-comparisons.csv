@@ -1,0 +1,43 @@
+profile,river_station_m,flow_m3_s,water_surface_m,hand_water_surface_m,comparison,difference_m,comparison_passes,floodplain_overtopped,model
+100yr,0,35.0,102.34759521484376,102.34811001667843,Manning downstream boundary,-0.0005148018346829,True,True,control
+100yr,100,35.0,102.44766235351562,102.447671677124,"standard step, average conveyance",-9.323608367139968e-06,True,True,control
+100yr,200,35.0,102.54772186279295,102.54772883992432,"standard step, average conveyance",-6.9771313491173714e-06,True,True,control
+100yr,300,35.0,102.64777374267578,102.64777950793658,"standard step, average conveyance",-5.7652607949876256e-06,True,True,control
+100yr,400,35.0,102.74781036376952,102.7478236808048,"standard step, average conveyance",-1.3317035254090117e-05,True,True,control
+100yr,500,35.0,102.84783172607422,102.84785486207626,"standard step, average conveyance",-2.3136002042178916e-05,True,True,control
+100yr,600,35.0,102.94786071777344,102.94787305131312,"standard step, average conveyance",-1.2333539686437687e-05,True,True,control
+10yr,0,15.0,101.3604736328125,101.36062834693958,Manning downstream boundary,-0.0001547141270776,True,False,control
+10yr,100,15.0,101.46050262451172,101.4605075890318,"standard step, average conveyance",-4.964520073258427e-06,True,False,control
+10yr,200,15.0,101.56051635742188,101.56053021661587,"standard step, average conveyance",-1.3859193998655428e-05,True,False,control
+10yr,300,15.0,101.6605224609375,101.6605409351221,"standard step, average conveyance",-1.847418459988148e-05,True,False,control
+10yr,400,15.0,101.76052856445312,101.76054569893913,"standard step, average conveyance",-1.7134486000713878e-05,True,False,control
+10yr,500,15.0,101.86052703857422,101.86055046277863,"standard step, average conveyance",-2.3424204428579287e-05,True,False,control
+10yr,600,15.0,101.96051025390624,101.96054927181667,"standard step, average conveyance",-3.901791042437708e-05,True,False,control
+2yr,0,5.0,100.67227172851562,100.67231189441124,Manning downstream boundary,-4.016589561217643e-05,True,False,control
+2yr,100,5.0,100.77229309082033,100.77228819346108,"standard step, average conveyance",4.897359232813869e-06,True,False,control
+2yr,200,5.0,100.87228393554688,100.87230079848824,"standard step, average conveyance",-1.6862941365047845e-05,True,False,control
+2yr,300,5.0,100.9722671508789,100.9722953962318,"standard step, average conveyance",-2.8245352908129465e-05,True,False,control
+2yr,400,5.0,101.07225036621094,101.07228549249211,"standard step, average conveyance",-3.512628119040073e-05,True,False,control
+2yr,500,5.0,101.17222595214844,101.17227558926636,"standard step, average conveyance",-4.963711791106107e-05,True,False,control
+2yr,600,5.0,101.27220153808594,101.2722611854917,"standard step, average conveyance",-5.964740576303029e-05,True,False,control
+100yr,0,35.0,102.34759521484376,102.34811001667843,Manning downstream boundary,-0.0005148018346829,True,True,culvert
+100yr,100,35.0,102.44766998291016,102.447671677124,"standard step, average conveyance",-1.6942138358899683e-06,True,True,culvert
+100yr,200,35.0,102.5477294921875,102.5477353357716,"standard step, average conveyance",-5.843584105491573e-06,True,True,culvert
+100yr,300,35.0,104.1303253173828,,culvert pair excluded from hand energy check,,,True,culvert
+100yr,400,35.0,104.14627838134766,104.14628276237148,"standard step, average conveyance",-4.381023828159414e-06,True,True,culvert
+100yr,500,35.0,104.16371154785156,104.16370834070592,"standard step, average conveyance",3.2071456530502473e-06,True,True,culvert
+100yr,600,35.0,104.18274688720705,104.18274882344404,"standard step, average conveyance",-1.936236998290042e-06,True,True,culvert
+10yr,0,15.0,101.3604736328125,101.36062834693958,Manning downstream boundary,-0.0001547141270776,True,False,culvert
+10yr,100,15.0,101.46050262451172,101.4605075890318,"standard step, average conveyance",-4.964520073258427e-06,True,False,culvert
+10yr,200,15.0,101.56051635742188,101.56053021661587,"standard step, average conveyance",-1.3859193998655428e-05,True,False,culvert
+10yr,300,15.0,103.33447265625,,culvert pair excluded from hand energy check,,,True,culvert
+10yr,400,15.0,103.34154510498048,103.34154212837709,"standard step, average conveyance",2.9766033833311667e-06,True,True,culvert
+10yr,500,15.0,103.3494873046875,103.34948189261836,"standard step, average conveyance",5.412069143062581e-06,True,True,culvert
+10yr,600,15.0,103.3584213256836,103.3584128614708,"standard step, average conveyance",8.464212797321125e-06,True,True,culvert
+2yr,0,5.0,100.67227172851562,100.67231189441124,Manning downstream boundary,-4.016589561217643e-05,True,False,culvert
+2yr,100,5.0,100.77229309082033,100.77228819346108,"standard step, average conveyance",4.897359232813869e-06,True,False,culvert
+2yr,200,5.0,100.87228393554688,100.87230079848824,"standard step, average conveyance",-1.6862941365047845e-05,True,False,culvert
+2yr,300,5.0,101.74362182617188,,culvert pair excluded from hand energy check,,,False,culvert
+2yr,400,5.0,101.75299072265624,101.7529920303132,"standard step, average conveyance",-1.3076569587155973e-06,True,False,culvert
+2yr,500,5.0,101.76448059082033,101.76448323086582,"standard step, average conveyance",-2.6400455084285568e-06,True,False,culvert
+2yr,600,5.0,101.7787094116211,101.77871706977682,"standard step, average conveyance",-7.658155723788695e-06,True,False,culvert

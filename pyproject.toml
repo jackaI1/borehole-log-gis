@@ -11,9 +11,19 @@ dependencies = ["fiona>=1.9,<2", "pyproj>=3.6,<4", "matplotlib>=3.8,<4"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+water = [
+    "h5py>=3.12,<4",
+    "pandas>=2.2,<3",
+    "pywin32>=306 ; sys_platform == 'win32'",
+    "scipy>=1.14,<2",
+    "setuptools>=70,<81",
+    "six>=1.16,<2",
+    "wntr==1.4.0",
+]
 
 [project.scripts]
 borehole-gis = "borehole_gis.cli:main"
+site-water = "borehole_gis.water_cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

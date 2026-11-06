@@ -1,0 +1,8 @@
+{
+  "depth_unit": "m",
+  "runs": [
+    {"hole_id": "BH01", "top_m": 2.0, "base_m": 3.0, "pieces_m": [0.1, 0.3, 0.05], "fractures": 4},
+    {"hole_id": "BH01", "top_m": 3.0, "base_m": 4.0, "pieces_m": [], "fractures": 0},
+    {"hole_id": "BH01", "top_m": 3.5, "base_m": 4.5, "pieces_m": [0.6, 0.5], "fractures": 2}
+  ]
+}
