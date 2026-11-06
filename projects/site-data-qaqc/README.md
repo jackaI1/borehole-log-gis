@@ -62,4 +62,6 @@ I bundle only three sourced values: groundwater arsenic and benzene, and soil ar
 There are 4 test source files in this copy. No test pass count is claimed here: I have not re-run the project suite as part of this move. This is a source snapshot, and running it on a new machine may need environment-specific setup.
 
 
-Project checks run from this directory through the path-filtered hub workflows: `site-data-qaqc-ci.yml`.
+Project checks run from this directory through the path-filtered hub workflows: (removed workflow).
+
+The relocated workflow failed in GitHub Actions and was removed to keep the hub checks independent. Local test sources remain available.
