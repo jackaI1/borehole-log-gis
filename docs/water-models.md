@@ -64,6 +64,19 @@ Tests compare EPANET with independent SI Hazen-Williams friction loss for one pi
 
 The [SWMM runner](../projects/swmm-flood-batch-runner/) reads GeoPandas map layers and a DEM, an elevation grid, to create linked sewer pipes and downhill surface channels. It runs the real EPA dynamic-wave solver for three illustrative storms. The reports distinguish surface water travelling through the model from flooding lost outside it and check both mass balance and solver convergence.
 
+To generate the included catchment and run the three storms from the repository root:
+
+```sh
+cd projects/swmm-flood-batch-runner
+uv sync --python 3.11 --frozen --extra test
+uv run python scripts/repair_macos_swmm.py
+uv run swmm-batch demo --workdir outputs/demo
+```
+
+Rainfall becomes runoff, the water leaving each drainage area, and enters the street channels. Openings exchange that water with the buried sewer pipes in either direction. Dynamic-wave routing is SWMM's calculation of changing water levels and flows, including water pushed back upstream. The continuity error is the percentage of incoming water that is not accounted for by storage and outflow; a small error is a numerical check, not evidence that the input represents a real site.
+
+I open `outputs/demo/results/summary.csv` for storm totals, `nodes.csv` for individual locations and `results.gpkg` for map layers. Each storm folder retains its rainfall, `model.inp`, `model.rpt` and binary results. The illustrative 100-year event has 75 mm of rain in one hour, about 0.250 m peak street depth and 167.6 m³ of overflow lost beyond the represented surface system. Its routing balance error is about -0.070%. The 2-year, 25 mm event has about 0.122 m peak street depth and no lost overflow. These labels are illustrative severities, not a local rainfall standard.
+
 After exporting boreholes and running the storm batch, I can make a nearby-results review table:
 
 ```sh
