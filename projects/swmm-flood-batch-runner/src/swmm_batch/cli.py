@@ -22,8 +22,19 @@ def main(argv=None):
         cmd.add_argument("--routing-step", type=float, default=1.0, help="Maximum routing step, seconds")
         cmd.add_argument("--continuity-limit", type=float, default=1.0, help="Maximum absolute mass error, percent")
         cmd.add_argument("--inlet-area", type=float, default=0.04, help="Area of each surface/sewer opening, m²")
+    overlay = commands.add_parser("boreholes", help="Join nearby surface flood results to borehole locations")
+    overlay.add_argument("--boreholes", type=Path, required=True)
+    overlay.add_argument("--results", type=Path, required=True)
+    overlay.add_argument("--output", type=Path, required=True)
+    overlay.add_argument("--return-period", type=int, default=100)
+    overlay.add_argument("--distance", type=float, default=100)
     args = parser.parse_args(argv)
     try:
+        if args.command == "boreholes":
+            from .boreholes import nearby_flooding
+            rows = nearby_flooding(args.boreholes, args.results, args.output, args.return_period, args.distance)
+            print(f"Exported {len(rows)} borehole/surface-node review rows: {args.output}")
+            return 0
         if args.command == "qa":
             model = load_catchment(args.gpkg, args.dem)
             print(f"QA passed: {len(model.manholes)} nodes, {len(model.pipes)} pipes, "

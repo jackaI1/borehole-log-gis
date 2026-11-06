@@ -1,0 +1,12 @@
+{
+  "synthetic": true,
+  "generator": "scripts/make_pumping_example.py",
+  "parameters": {
+    "T_m2_s": 0.001,
+    "S": 0.0002,
+    "Q_m3_s": 0.01,
+    "radius_m": 20
+  },
+  "noise": "Independent Gaussian drawdown noise, sd 0.003 m, seed 2026; sinusoidal pressure",
+  "field_data": false
+}

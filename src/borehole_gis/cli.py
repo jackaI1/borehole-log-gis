@@ -8,6 +8,7 @@ from fiona.errors import FionaError
 from pyproj import CRS
 from pyproj.exceptions import ProjError
 
+from .core_runs import export_core_runs, read_core_runs
 from .export import export_tables, plot_logs, write_report
 from .model import Dataset
 from .readers import read_ags, read_bc_csv
@@ -21,6 +22,7 @@ def main(argv=None):
     parser.add_argument("--crs", help="AGS coordinate CRS, e.g. EPSG:27700. Never inferred.")
     parser.add_argument("--depth-unit", choices=["m", "ft", "mm"], help="Required for BC CSV")
     parser.add_argument("--out", required=True, type=Path, help="New or empty output directory")
+    parser.add_argument("--core-runs", type=Path, help="Core-run JSON with depth_unit: m")
     parser.add_argument("--output-crs", default="EPSG:3005", help="Projected metre CRS for exported map")
     parser.add_argument("--tolerance", type=float, default=0.001, help="Depth comparison tolerance in metres")
     parser.add_argument("--strict", action="store_true", help="Also block export on warnings")
@@ -64,6 +66,9 @@ def main(argv=None):
     try:
         export_tables(ds, args.out, args.output_crs)
         plot_logs(ds, args.out)
+        if args.core_runs:
+            rows = export_core_runs(read_core_runs(args.core_runs), ds, args.out)
+            print(f"Core runs: {len(rows)}; review flagged: {sum(bool(r['review_flags']) for r in rows)}")
     except (ValueError, OSError, ProjError, FionaError) as exc:
         print(f"Export failed: {exc}", file=sys.stderr)
         return 2

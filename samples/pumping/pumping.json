@@ -1,0 +1,11 @@
+{
+  "start": "2026-01-01 00:00:00+00:00",
+  "rate": 10,
+  "rate_unit": "L/s",
+  "radius": 20,
+  "radius_unit": "m",
+  "drawdown_unit": "m",
+  "pressure_unit": "kPa",
+  "reference_pressure": 101.3,
+  "barometric_efficiency": 0.65
+}
