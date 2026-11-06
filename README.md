@@ -69,3 +69,11 @@ uv build
 ```
 
 The 61 pytest cases cover both real samples, malformed records, missing groups and headings, units, depth conversion, overlaps, gaps, nested intervals, orphan records, SPT values and end-to-end GeoPackage and image exports. GitHub Actions runs these checks on Python 3.11, 3.12 and 3.13. A separate Ubuntu job installs real QGIS, renders both maps, and reopens the saved BC project to check its layer, CRS, styling, labels and layout. It also checks that the exported PDF and PNG contain output.
+
+
+## Other things I've built here
+
+- [process-hydraulics-relief-calc](projects/process-hydraulics-relief-calc/)
+- [site-data-qaqc](projects/site-data-qaqc/)
+- [swmm-flood-batch-runner](projects/swmm-flood-batch-runner/)
+- [wind-site-screening](projects/wind-site-screening/)

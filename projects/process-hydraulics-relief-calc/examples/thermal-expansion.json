@@ -1,0 +1,32 @@
+{
+  "title": "Blocked-in liquid exchanger thermal relief",
+  "assumptions": [
+    "Synthetic nonboiling liquid filled exchanger; all temperatures and properties are supplied for the stated relieving condition.",
+    "The heat-transfer inputs represent a conservative credible duty for this contingency. Other contingencies need separate assessment."
+  ],
+  "thermal_relief": {
+    "scenario": "Blocked-in cold side of a liquid-filled exchanger: both liquid isolation valves are shut while the warmer utility continues flowing. Thermal expansion is credible because the trapped liquid has no normal outlet; this calculation evaluates that contingency only, without claiming it governs all other cases.",
+    "factor_basis": "Synthetic oil properties at relieving conditions, with the lowest credible liquid temperature and maximum credible U and heat-transfer area for this case. Rigid fully filled volume; no heat-loss or vessel-expansion credit, reaction, inflow or phase change. Saturation temperature is supplied at the same relieving inlet pressure; the utility is cooler than this temperature. Kd=0.65 and Kw=Kc=Kv=1 are explicit preliminary effective-area assumptions, to be verified for the actual valve and low-viscosity liquid.",
+    "load_inputs": {
+      "overall_heat_transfer_w_m2_k": 100,
+      "heat_transfer_area_m2": 10,
+      "heat_source_temperature_k": 353.15,
+      "liquid_temperature_k": 313.15,
+      "saturation_temperature_at_relief_k": 473.15,
+      "blocked_volume_m3": 2,
+      "density_kg_m3": 800,
+      "heat_capacity_j_kg_k": 2000,
+      "volumetric_expansion_per_k": 0.001,
+      "reference_water_density_kg_m3": 1000
+    },
+    "sizing_inputs": {
+      "inlet_kpa_abs": 1101.325,
+      "backpressure_kpa_abs": 101.325,
+      "vapor_pressure_kpa_abs": 2,
+      "kd": 0.65,
+      "kw": 1,
+      "kc": 1,
+      "kv": 1
+    }
+  }
+}

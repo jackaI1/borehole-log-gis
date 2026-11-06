@@ -1,0 +1,5 @@
+These are invented sampling results for two invented sites. Coordinates are arbitrary points in UTM zone 17N near southern Ontario, not evidence about a real property. There are no client names, addresses, laboratory reports or personal records here.
+
+`groundwater_legacy.csv` uses comma separation, abbreviated headings, water units in both micrograms and milligrams per litre, and year-first dates. `soil_legacy.csv` uses semicolons, a UTF-8 byte-order mark, decimal commas, a micro symbol and day-month-name dates. Both are long tables: one row per chemical result.
+
+The 23 input rows intentionally include six unusable records: an unsupported unit, an ambiguous date, an impossible coordinate, a missing borehole, wet-weight soil and a reversed depth interval. The 17 retained results include seven exceedances, one non-detect with an insufficiently low detection limit and one chemical without a bundled guideline. There are five linked duplicate checks: two pass, one fails at 50% relative difference, one is censored and one has no parent. See the root README for the run command and report definitions.

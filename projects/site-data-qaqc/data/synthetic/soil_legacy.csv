@@ -1,0 +1,9 @@
+﻿project;bh;lab id;sampled;media;chemical;concentration;units;mdl;lab qualifier;duplicate of;easting;northing;epsg;top m;bottom m;material;basis
+North Yard;BH-01;S-01;14-Sep-2026;soil;Arsenic;18;mg/kg;0.5;;;550000;4840000;EPSG:26917;0.5;1.0;sandy fill;dry
+North Yard;BH-01;S-01-D;14-Sep-2026;soil;Arsenic;19,5;mg/kg;0.5;;S-01;550000;4840000;EPSG:26917;0.5;1.0;sandy fill;dry
+North Yard;BH-02;S-02;14-Sep-2026;soil;Arsenic;9000;µg/kg;500;;;550080;4840050;EPSG:26917;0.5;1.0;silt;dry
+Creek Lot;MW-01;S-C1;14-Sep-2026;soil;Arsenic;<4;mg/kg;4;;;551000;4841000;EPSG:26917;0.5;1.0;clay;dry
+Creek Lot;MW-02;S-C2;14-Sep-2026;soil;copper;20;mg/kg;0.5;;;551080;4841030;EPSG:26917;0.5;1.0;sand;dry
+North Yard;BH-01;BAD-WET;14-Sep-2026;soil;Arsenic;18;mg/kg;0.5;;;550000;4840000;EPSG:26917;0.5;1.0;sandy fill;wet
+North Yard;BH-01;BAD-DEPTH;14-Sep-2026;soil;Arsenic;18;mg/kg;0.5;;;550000;4840000;EPSG:26917;0.5;0.2;sandy fill;dry
+North Yard;BH-01;ORPHAN-D;14-Sep-2026;soil;Arsenic;20;mg/kg;0.5;;NOT-IN-FILE;550000;4840000;EPSG:26917;0.5;1.0;sandy fill;dry

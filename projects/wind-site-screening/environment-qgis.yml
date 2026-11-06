@@ -1,0 +1,6 @@
+name: wind-screen-qgis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - qgis=3.44.*
