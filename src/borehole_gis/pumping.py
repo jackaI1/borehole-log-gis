@@ -134,7 +134,19 @@ def fit_theis(times, drawdown, rate, radius, duration=None):
         lambda tr, s: residual_theis(times - duration, duration, rate, radius, tr, s))
     def residual(log_values):
         return predictor(*np.exp(log_values)) - drawdown
-    result = least_squares(residual, np.log([0.001, 0.0001]),
+    def jacobian(log_values):
+        tr, storage = np.exp(log_values)
+        scale = rate / (4 * np.pi * tr)
+        u = radius ** 2 * storage / (4 * tr * times)
+        if duration is None:
+            response = scale * np.exp(-u)
+        else:
+            after_u = radius ** 2 * storage / (4 * tr * (times - duration))
+            # exp(-u) - exp(-after_u), stable even when both are nearly 1.
+            response = scale * np.exp(-u) * (-np.expm1(-(after_u - u)))
+        predicted = predictor(tr, storage)
+        return np.column_stack((-predicted + response, -response))
+    result = least_squares(residual, np.log([0.001, 0.0001]), jac=jacobian,
                            bounds=(np.log([1e-9, 1e-10]), np.log([1, 1])),
                            xtol=1e-12, ftol=1e-12, gtol=1e-12, max_nfev=3000)
     degrees = len(times) - 2
@@ -147,6 +159,12 @@ def fit_theis(times, drawdown, rate, radius, duration=None):
     report.update({"points": len(times), "converged": bool(result.success),
                    "jacobian_condition": condition if np.isfinite(condition) else None})
     flags = []
+    if duration is not None:
+        max_after_u = radius ** 2 * report["storativity"] / (
+            4 * report["transmissivity_m2_s"] * np.min(times - duration))
+        if max_after_u <= 0.01:
+            report["ci95_S"] = None
+            flags.append("late recovery alone cannot reliably identify storativity")
     if not result.success or np.any(result.active_mask):
         flags.append("fit failed or reached parameter bounds")
     if covariance is None or report["ci95_S"] is None:

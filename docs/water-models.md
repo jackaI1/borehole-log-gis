@@ -37,7 +37,7 @@ If the CSV has `barometric_pressure`, metadata must declare `pressure_unit` (Pa,
 
 Theis uses `s = Q E1(r² S / (4 T t)) / (4 pi T)`, where E1 is the exponential integral. I solve for log(T), log(S) with bounded least squares, then propagate the covariance into approximate 95% confidence intervals. The model assumes a homogeneous confined aquifer, a fully penetrating well, constant rate and no nearby boundaries. The intervals assume independent drawdown errors; they do not include model bias or uncertainty in rate, radius or barometric calibration.
 
-Cooper-Jacob approximates the late part of the Theis curve as a line against log time. I select observations with Theis-estimated `u <= 0.01` and any supplied `late_time_s` cutoff, then recheck u using the fitted line. I flag fewer than five late points, nonpositive slopes, poor fits (R² below 0.98), parameter bounds and ill-conditioned fits. For recovery, metadata supplies `stop`, and the CSV must contain only post-stop readings. I fit residual drawdown as the difference between continued pumping and an equal negative pumping rate starting at shutoff. Late recovery alone may not identify S; unavailable confidence intervals are explicit.
+Cooper-Jacob approximates the late part of the Theis curve as a line against log time. I select observations with Theis-estimated `u <= 0.01` and any supplied `late_time_s` cutoff, then recheck u using the fitted line. I flag fewer than five late points, nonpositive slopes, poor fits (R² below 0.98), parameter bounds and ill-conditioned fits. For recovery, metadata supplies `stop`, and the CSV must contain only post-stop readings. I fit residual drawdown as the difference between continued pumping and an equal negative pumping rate starting at shutoff. Late recovery alone may not identify S; unavailable confidence intervals are explicit. I use analytic parameter sensitivities to avoid falsely narrow intervals caused by subtracting nearly equal late-recovery responses.
 
 The 70-point examples add small noise and pressure variation to T=0.001 m²/s and S=0.0002. Regenerate them with `uv run python scripts/make_pumping_example.py`. Source metadata is committed beside the CSV files.
 
@@ -92,6 +92,8 @@ My independent calculations use Manning's equation for the downstream normal-dep
 
 The published [USACE Linux notes](https://www.hec.usace.army.mil/software/hec-ras/documentation/HEC-RAS_66_Linux_Build_Release_Notes.pdf) explain that Linux compute inputs ordinarily originate in a Windows preprocessing run. I use the Windows CI controller to generate and validate the complete model directly. The small generator writes the documented HEC-RAS text record format; it does not substitute a hand calculator for the real engine.
 
+The [saved result tables](examples/river-comparisons.csv) and [run provenance](examples/river-report.json) come from an actual HEC-RAS 6.6 CI run. All 39 ordinary-channel comparisons differ from the independent calculation by less than 0.00052 m. The crossing raises the water at station 300 by 0.77, 1.67 and 1.48 m for the three flows. Eleven section/profile combinations overtop the banks in the culvert model, compared with seven in the control.
+
 ## Verification
 
 ```sh
@@ -102,4 +104,4 @@ cd projects/swmm-flood-batch-runner
 uv run pytest -q
 ```
 
-The 107 root tests cover the original borehole exports, core intervals, synthetic pumping and recovery parameter fits, unit/time errors, barometric correction, a published straight-line example, actual EPANET solves, HDF extraction and hand river calculations. GitHub Actions runs it on Python 3.11 through 3.13, renders the existing QGIS examples on Ubuntu and publishes pumping, pressure-zone and HEC-RAS outputs. The 47-test SWMM suite runs the actual engine, including mass balance, adverse terrain and a smaller time-step comparison. Model outputs with warnings stay visible; green CI means the checks behaved as expected, not that every example passes design criteria.
+The 108 root tests cover the original borehole exports, core intervals, synthetic pumping and recovery parameter fits, unit/time errors, barometric correction, a published straight-line example, actual EPANET solves, HDF extraction and hand river calculations. GitHub Actions runs it on Python 3.11 through 3.13, renders the existing QGIS examples on Ubuntu and publishes pumping, pressure-zone and HEC-RAS outputs. The 47-test SWMM suite runs the actual engine, including mass balance, adverse terrain and a smaller time-step comparison. Model outputs with warnings stay visible; green CI means the checks behaved as expected, not that every example passes design criteria.

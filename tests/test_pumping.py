@@ -138,3 +138,11 @@ def test_nonphysical_straight_line_is_flagged_without_infinite_parameters():
     result = fit_cooper_jacob([1, 10, 100], [1000, 1001, 1002], .01, 20)
     assert result['flags'] == ['straight-line parameters outside supported T/S bounds']
     json.dumps(result, allow_nan=False)
+
+
+def test_late_recovery_does_not_claim_precise_storativity():
+    after = np.geomspace(1e7, 1e9, 20)
+    values = residual_theis(after, 600, .01, 20, .001, .0002)
+    result = fit_theis(after + 600, values, .01, 20, 600)
+    assert result['ci95_S'] is None
+    assert 'late recovery alone cannot reliably identify storativity' in result['flags']

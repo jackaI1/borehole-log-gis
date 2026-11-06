@@ -142,6 +142,8 @@ def run_hecras(project):
         controller.Project_Open(str(Path(project).resolve()))
         # Blocking compute waits for the actual engine, not a timer or a cached file.
         result = controller.Compute_CurrentPlan(None, None, True)
+        if not result[0]:
+            raise RuntimeError('HEC-RAS reported an unsuccessful computation')
         print('HEC-RAS compute result:', str(result)[:2500])
         hdf = Path(project).with_suffix('.p01.hdf')
         if not hdf.is_file():
@@ -164,13 +166,15 @@ def extract_profiles(hdf):
         attributes = handle[attr_path][...]
         fields = attributes.dtype.names or ()
         rs_field = next((f for f in fields if f in ('RS', 'River Station', 'Station')), None)
-        if rs_field is None or values.shape != (len(profiles), len(attributes)):
+        if not {'River', 'Reach'} <= set(fields) or rs_field is None or values.shape != (len(profiles), len(attributes)):
             raise ValueError('Unexpected HEC-RAS profile dimensions or station field')
         rows = []
         for profile, elevations in zip(profiles, values):
             if profile not in FLOWS:
                 raise ValueError(f'Unexpected profile: {profile}')
             for attributes_row, elevation in zip(attributes, elevations):
+                if decode(attributes_row['River']) != 'Study' or decode(attributes_row['Reach']) != 'Main':
+                    raise ValueError('Unexpected river/reach identity')
                 station = float(decode(attributes_row[rs_field]).rstrip('*'))
                 if not np.isfinite(elevation) or elevation < -1000:
                     raise ValueError('Invalid water-surface result')
@@ -214,12 +218,13 @@ def run_workflow(output):
     """Two real runs distinguish culvert backwater from uniform-channel verification."""
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
-    reports = {}
+    reports, frames = {}, {}
     for name, crossing in [('control', False), ('culvert', True)]:
         project = generate_project(output / name, crossing)
         hdf = run_hecras(project)
         frame = extract_profiles(hdf)
         frame.to_csv(output / name / 'profiles.csv', index=False)
+        frames[name] = frame
         comparison = compare_profiles(frame, crossing)
         comparison.to_csv(output / name / 'comparison.csv', index=False)
         checked = comparison.dropna(subset=['difference_m'])
@@ -229,5 +234,12 @@ def run_workflow(output):
                          'overtopped_sections': int(comparison.floodplain_overtopped.sum())}
         if not reports[name]['all_comparisons_pass']:
             raise AssertionError(f'{name}: HEC-RAS differs from hand calculation: {reports[name]}')
+    paired = frames['culvert'].merge(frames['control'], on=['profile', 'river_station_m'],
+                                      suffixes=('_culvert', '_control'))
+    upstream = paired.loc[paired.river_station_m == 300]
+    backwater = dict(zip(upstream.profile, upstream.water_surface_m_culvert - upstream.water_surface_m_control))
+    if not all(value > 0.01 for value in backwater.values()):
+        raise AssertionError('The modeled culvert did not produce the expected upstream backwater')
+    reports['culvert']['upstream_backwater_m'] = backwater
     (output / 'report.json').write_text(json.dumps(reports, indent=2) + '\n')
     return reports
