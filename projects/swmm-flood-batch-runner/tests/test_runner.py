@@ -118,3 +118,18 @@ def test_coarse_step_flags_nonconvergence_even_with_small_mass_error(batch, tmp_
     assert summary.routing_error_pct.abs().iloc[0] < 1
     assert summary.nonconverging_steps_pct.iloc[0] > 1
     assert summary.status.iloc[0] == "unstable"
+
+
+def test_real_flood_results_join_to_borehole_review(batch, tmp_path):
+    from shapely.geometry import Point
+
+    from swmm_batch.boreholes import nearby_flooding
+
+    _, _, output, _ = batch
+    holes = tmp_path / 'boreholes.gpkg'
+    gpd.GeoDataFrame({'hole_id': ['SYNTHETIC_CORE']}, geometry=[Point(500200, 4800000)],
+                     crs=32617).to_file(holes, layer='boreholes', driver='GPKG')
+    rows = nearby_flooding(holes, output / 'results.gpkg', tmp_path / 'review.csv', distance_m=101)
+    assert rows.lost_flood_volume_m3.max() > 100
+    assert 'near modeled overflow' in set(rows.review)
+    assert set(rows.surface_node_id) <= {'S_M1', 'S_M2', 'S_M3'}

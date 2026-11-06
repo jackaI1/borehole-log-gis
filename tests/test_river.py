@@ -89,3 +89,14 @@ def test_macos_never_launches_hecras(tmp_path):
     if sys.platform != 'win32':
         with pytest.raises(RuntimeError, match='Windows CI'):
             run_hecras(tmp_path / 'channel.prj')
+
+
+def test_hecras_66_result_station_field(tmp_path):
+    path = tmp_path / 'schema66.hdf'
+    write_hdf(path)
+    with h5py.File(path, 'r+') as f:
+        old = f['Geometry/Cross Sections/Attributes'][...]
+        attrs = np.array([(r['River'], r['Reach'], r['RS']) for r in old],
+                         dtype=[('River', 'S16'), ('Reach', 'S16'), ('Station', 'S8')])
+        f.create_dataset('Results/Steady/Output/Geometry Info/Cross Section Attributes', data=attrs)
+    assert len(extract_profiles(path)) == 21

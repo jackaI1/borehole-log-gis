@@ -92,6 +92,8 @@ def check_network(inp, output, criteria=Criteria(), fire_flow_m3_s=0.015, hydran
     if wn.options.time.pattern_start != 0 or wn.options.time.report_start != 0:
         raise ValueError("Pattern and report start must be zero")
     wn.options.hydraulic.demand_model = 'DDA'
+    wn.options.time.hydraulic_timestep = 900
+    wn.options.time.report_timestep = 900
     hydrants = list(hydrants) if hydrants is not None else [n for n in wn.junction_name_list
                                                          if wn.get_node(n).base_demand > 0]
     if not hydrants or len(set(hydrants)) != len(hydrants) or any(n not in wn.junction_name_list for n in hydrants):
@@ -143,6 +145,8 @@ def check_network(inp, output, criteria=Criteria(), fire_flow_m3_s=0.015, hydran
     for hydrant in hydrants:
         scenario = wntr.network.WaterNetworkModel(str(inp))
         scenario.options.hydraulic.demand_model = 'DDA'
+        scenario.options.time.hydraulic_timestep = 900
+        scenario.options.time.report_timestep = 900
         pattern = [0] * 24
         pattern[6:8] = [1, 1]
         scenario.add_pattern('fire_check', pattern)

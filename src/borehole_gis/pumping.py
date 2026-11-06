@@ -170,6 +170,8 @@ def fit_cooper_jacob(times, drawdown, rate, radius):
         return {"flags": ["nonpositive late-time slope"], "points": len(times)}
     tr = rate / (4 * np.pi * slope)
     log_s = np.log(4 * np.exp(-np.euler_gamma) * tr / radius ** 2) - intercept / slope
+    if not np.isfinite(log_s) or not np.log(1e-10) <= log_s <= 0 or not 1e-9 <= tr <= 1:
+        return {"points": len(times), "flags": ["straight-line parameters outside supported T/S bounds"]}
     degrees = len(times) - 2
     predicted = design @ [slope, intercept]
     covariance = None

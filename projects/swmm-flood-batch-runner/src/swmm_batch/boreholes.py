@@ -18,15 +18,18 @@ def nearby_flooding(boreholes_gpkg: Path, results_gpkg: Path, output_csv: Path,
     if (nodes.crs is None or not nodes.crs.is_projected or
             any(axis.unit_name != 'metre' for axis in nodes.crs.axis_info) or holes.crs is None):
         raise ValueError('Results need a projected metre CRS and boreholes need a declared CRS')
-    required = {'node_id', 'layer', 'peak_depth_m', 'flood_volume_m3'}
+    required = {'node_id', 'kind', 'layer', 'peak_depth_m', 'flood_volume_m3'}
     if 'hole_id' not in holes or not required <= set(nodes):
         raise ValueError('Use the borehole-gis and swmm-batch exported layers')
     if holes.hole_id.duplicated().any() or nodes.node_id.duplicated().any():
         raise ValueError('Feature IDs must be unique')
     if any(g is None or g.is_empty or g.geom_type != 'Point' or not g.is_valid for g in [*holes.geometry, *nodes.geometry]):
         raise ValueError('Screening requires valid nonempty point geometry')
+    for column in ['peak_depth_m', 'flood_volume_m3']:
+        if not np.isfinite(nodes[column]).all() or (nodes[column] < 0).any():
+            raise ValueError('Flood result depths and volumes must be finite and nonnegative')
     holes = holes.to_crs(nodes.crs)
-    nodes = nodes.loc[(nodes.layer == 'surface') & (nodes.node_id != 'S_OUT')]
+    nodes = nodes.loc[(nodes.layer == 'surface') & (nodes.kind == 'junction')]
     rows = []
     for hole in holes.itertuples():
         near = nodes.copy()

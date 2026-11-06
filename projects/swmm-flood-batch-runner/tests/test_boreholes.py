@@ -10,7 +10,8 @@ def inputs(tmp_path):
     holes, results = tmp_path / 'holes.gpkg', tmp_path / 'results.gpkg'
     gpd.GeoDataFrame({'hole_id': ['A', 'B']}, geometry=[Point(0, 0), Point(1000, 0)], crs=32617).to_file(
         holes, layer='boreholes', driver='GPKG')
-    gpd.GeoDataFrame({'node_id': ['S_A', 'S_B', 'N_A', 'S_OUT'], 'layer': ['surface', 'surface', 'sewer', 'surface'],
+    gpd.GeoDataFrame({'node_id': ['S_A', 'S_B', 'N_A', 'S_EXIT'], 'layer': ['surface', 'surface', 'sewer', 'surface'],
+                      'kind': ['junction', 'junction', 'junction', 'outfall'],
                       'peak_depth_m': [.1, .25, 2, 0], 'flood_volume_m3': [0, 10, 20, 0]},
                      geometry=[Point(5, 0), Point(10, 0), Point(0, 0), Point(1, 0)], crs=32617).to_file(
                          results, layer='nodes_100yr', driver='GPKG')

@@ -132,3 +132,9 @@ def test_poor_fit_and_early_time_warnings(tmp_path):
     bad = fit_theis(np.geomspace(1, 10000, 20), np.tile([1, 3], 10), .01, 20)
     assert 'poor fit: R-squared below 0.98' in bad['flags']
     assert fit_cooper_jacob([1, 10, 100], [3, 2, 1], .01, 20)['flags'] == ['nonpositive late-time slope']
+
+
+def test_nonphysical_straight_line_is_flagged_without_infinite_parameters():
+    result = fit_cooper_jacob([1, 10, 100], [1000, 1001, 1002], .01, 20)
+    assert result['flags'] == ['straight-line parameters outside supported T/S bounds']
+    json.dumps(result, allow_nan=False)

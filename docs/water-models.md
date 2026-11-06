@@ -52,7 +52,7 @@ uv run site-water water-demo --inp build/water/zone.inp
 uv run site-water water --inp build/water/zone.inp --out build/water/results
 ```
 
-The second command reloads the actual EPANET input file. I can replace it with my own 24-hour Hazen-Williams model with one-hour demand patterns. `--hydrants A B C` selects fire-demand nodes; otherwise I use junctions with a positive base demand. `--fire-flow-l-s 15` sets the extra two-hour demand at each hydrant, one hydrant per scenario, between hours 6 and 8. All junctions remain checked, so the lowest pressure can be somewhere other than the burning location.
+The second command reloads the actual EPANET input file and uses 15-minute hydraulic and report steps. I can replace it with my own 24-hour Hazen-Williams model with one-hour demand patterns. `--hydrants A B C` selects fire-demand nodes; otherwise I use junctions with a positive base demand. `--fire-flow-l-s 15` sets the extra two-hour demand at each hydrant, one hydrant per scenario, between hours 6 and 8. All junctions remain checked, so the lowest pressure can be somewhere other than the burning location.
 
 `nodes.csv` lists pressure extremes; `pipes.csv` lists maximum speed and friction loss per kilometre with criterion violations; `pumps.csv` checks each operating point against the supplied pump curve and flow range. `fire_flow.csv` identifies the lowest residual pressure and its location. `report.json`, engine reports, binary results and pressure time series remain available for inspection.
 
@@ -102,4 +102,4 @@ cd projects/swmm-flood-batch-runner
 uv run pytest -q
 ```
 
-The root suite covers the original borehole exports, core intervals, synthetic pumping and recovery parameter fits, unit/time errors, barometric correction, a published straight-line example, actual EPANET solves, HDF extraction and hand river calculations. GitHub Actions runs it on Python 3.11 through 3.13, renders the existing QGIS examples on Ubuntu and publishes pumping, pressure-zone and HEC-RAS outputs. The separate SWMM suite runs the actual engine, including mass balance, adverse terrain and a smaller time-step comparison. Model outputs with warnings stay visible; green CI means the checks behaved as expected, not that every example passes design criteria.
+The 107 root tests cover the original borehole exports, core intervals, synthetic pumping and recovery parameter fits, unit/time errors, barometric correction, a published straight-line example, actual EPANET solves, HDF extraction and hand river calculations. GitHub Actions runs it on Python 3.11 through 3.13, renders the existing QGIS examples on Ubuntu and publishes pumping, pressure-zone and HEC-RAS outputs. The 47-test SWMM suite runs the actual engine, including mass balance, adverse terrain and a smaller time-step comparison. Model outputs with warnings stay visible; green CI means the checks behaved as expected, not that every example passes design criteria.

@@ -163,7 +163,7 @@ def extract_profiles(hdf):
             attr_path = 'Geometry/Cross Sections/Attributes'
         attributes = handle[attr_path][...]
         fields = attributes.dtype.names or ()
-        rs_field = next((f for f in fields if f in ('RS', 'River Station')), None)
+        rs_field = next((f for f in fields if f in ('RS', 'River Station', 'Station')), None)
         if rs_field is None or values.shape != (len(profiles), len(attributes)):
             raise ValueError('Unexpected HEC-RAS profile dimensions or station field')
         rows = []
