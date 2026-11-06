@@ -1,0 +1,45 @@
+name: swmm-flood-batch-runner / Test drainage model
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - projects/swmm-flood-batch-runner/**
+    - .github/workflows/swmm-flood-batch-runner-tests.yml
+  pull_request:
+    paths:
+    - projects/swmm-flood-batch-runner/**
+    - .github/workflows/swmm-flood-batch-runner-tests.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-26
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v6
+      with:
+        version: 0.12.19
+        python-version: '3.11'
+        working-directory: projects/swmm-flood-batch-runner
+    - run: uv sync --frozen --extra test
+    - run: uv run python scripts/repair_macos_swmm.py
+    - run: uv run pytest -q
+    - run: uv run swmm-batch demo --workdir outputs/ci-demo
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: drainage-outputs-${{ matrix.os }}
+        path: projects/swmm-flood-batch-runner/outputs/ci-demo
+        if-no-files-found: ignore
+    timeout-minutes: 20
+defaults:
+  run:
+    working-directory: projects/swmm-flood-batch-runner

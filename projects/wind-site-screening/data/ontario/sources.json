@@ -1,0 +1,103 @@
+{
+  "retrieved_utc": "2026-11-05T22:53:03.064992+00:00",
+  "config": {
+    "name": "Bruce County inland screening",
+    "analysis_crs": "EPSG:26917",
+    "bbox_wgs84": [
+      -81.65,
+      44.0,
+      -81.25,
+      44.3
+    ],
+    "cell_size_m": 2000,
+    "setbacks_m": {
+      "roads": 100,
+      "transmission": 150,
+      "water": 120,
+      "protected": 300
+    },
+    "wind_floor_ms": 5,
+    "wind_ceiling_ms": 9,
+    "grid_limit_m": 20000,
+    "min_usable_ha": 20,
+    "max_constraint_fraction": 0.5,
+    "min_wind_coverage": 0.95,
+    "weights": {
+      "wind": 0.5,
+      "grid": 0.3,
+      "usable": 0.2
+    },
+    "top_sites": 3
+  },
+  "sources": [
+    {
+      "layer": "transmission",
+      "url": "https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open05/MapServer/11",
+      "where": "CLASS_SUBTYPE = 'Hydro Line'",
+      "bbox_wgs84": [
+        -81.91324643927821,
+        43.810924650041116,
+        -80.98674123417567,
+        44.48905911434823
+      ],
+      "features": 24,
+      "license": "Open Government Licence - Ontario"
+    },
+    {
+      "layer": "roads",
+      "url": "https://services1.arcgis.com/TJH5KDher0W13Kgo/arcgis/rest/services/Ontario_Road_Network_Composite_Service_GeoHub_View_EN/FeatureServer/5",
+      "where": "1=1",
+      "bbox_wgs84": [
+        -81.66378934719724,
+        43.99009620869138,
+        -81.23621025071756,
+        44.309903252117685
+      ],
+      "features": 1823,
+      "license": "Open Government Licence - Ontario"
+    },
+    {
+      "layer": "water",
+      "url": "https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open01/MapServer/25",
+      "where": "1=1",
+      "bbox_wgs84": [
+        -81.66404006241339,
+        43.98991613959926,
+        -81.2359595279415,
+        44.31008331108783
+      ],
+      "features": 700,
+      "license": "Open Government Licence - Ontario"
+    },
+    {
+      "layer": "protected",
+      "url": "https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open03/MapServer/4",
+      "where": "1=1",
+      "bbox_wgs84": [
+        -81.66629649905053,
+        43.98829551751433,
+        -81.23370302286452,
+        44.311703841563116
+      ],
+      "features": 1,
+      "license": "Open Government Licence - Ontario"
+    },
+    {
+      "layer": "wind",
+      "url": "https://gwa.cdn.nazkamapps.com/country_tifs_v4/CAN_wind-speed_100m.tif",
+      "license": "CC BY 4.0",
+      "hub_height_m": 100,
+      "units": "m/s",
+      "operation": "native-grid window only"
+    }
+  ],
+  "candidate_note": "Generated 2 km study cells, not legal land parcels",
+  "files": {
+    "candidates.geojson": "e7aa0af4c42bcf856c1cb7de5b055ac4131794186f87bc4fb80451aba63cd935",
+    "protected.geojson": "414e172f0bde3db675e35eb05723b95f74d9dffc5b627bb3b7486f67c9598463",
+    "roads.geojson": "67d19aa736325bd5365cc4f8eb36d2949026d37a040b5f3b985d0e8536e30911",
+    "transmission.geojson": "90a3d79d911bad18a33e66d3242b32411c41ae43f27335bc5b0d5523ab635550",
+    "water.geojson": "41737471f6b3c8154ba22417ddb3b8cb16ef5dae08c6bdfda12937d5b303b603",
+    "wind_100m.tif": "dd0ffb7af5756aa7b59fe74f9cc28afeaf7a6d25546bb17af6810a7ad33b63cc"
+  }
+}

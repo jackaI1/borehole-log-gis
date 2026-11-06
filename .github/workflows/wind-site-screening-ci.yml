@@ -1,0 +1,73 @@
+name: wind-site-screening / Screening checks
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - projects/wind-site-screening/**
+    - .github/workflows/wind-site-screening-ci.yml
+  pull_request:
+    paths:
+    - projects/wind-site-screening/**
+    - .github/workflows/wind-site-screening-ci.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  python:
+    name: Python tests (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python:
+        - '3.11'
+        - '3.12'
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v6
+      with:
+        python-version: ${{ matrix.python }}
+        enable-cache: true
+        working-directory: projects/wind-site-screening
+    - run: uv sync --extra dev --locked
+    - run: uv run ruff check src tests scripts
+    - run: uv run ruff format --check src tests scripts
+    - run: uv run pytest -q
+    - run: uv run wind-screen run --output outputs/ci
+    timeout-minutes: 20
+  qgis:
+    name: Real QGIS project and print layout
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: astral-sh/setup-uv@v6
+      with:
+        python-version: '3.12'
+        enable-cache: true
+        working-directory: projects/wind-site-screening
+    - name: Install QGIS and a consistent map font
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y --no-install-recommends python3-qgis fonts-dejavu-core
+
+        '
+    - run: uv sync --extra dev --locked
+    - run: uv run wind-screen run --output outputs/qgis
+    - name: Build and reopen the actual QGIS project
+      env:
+        QT_QPA_PLATFORM: offscreen
+      run: 'uv run wind-screen qgis outputs/qgis --python /usr/bin/python3
+
+        /usr/bin/python3 scripts/check_qgis.py outputs/qgis
+
+        /usr/bin/python3 scripts/check_qgis.py examples/bruce
+
+        '
+    - uses: actions/upload-artifact@v4
+      with:
+        name: screening-map-and-project
+        path: projects/wind-site-screening/outputs/qgis/
+    timeout-minutes: 20
+defaults:
+  run:
+    working-directory: projects/wind-site-screening

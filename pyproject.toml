@@ -19,6 +19,7 @@ borehole-gis = "borehole_gis.cli:main"
 testpaths = ["tests"]
 
 [tool.ruff]
+extend-exclude = ["projects"]
 line-length = 110
 
 [tool.hatch.build.targets.wheel]

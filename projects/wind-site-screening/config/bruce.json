@@ -1,0 +1,15 @@
+{
+  "name": "Bruce County inland screening",
+  "analysis_crs": "EPSG:26917",
+  "bbox_wgs84": [-81.65, 44.0, -81.25, 44.3],
+  "cell_size_m": 2000,
+  "setbacks_m": {"roads": 100, "transmission": 150, "water": 120, "protected": 300},
+  "wind_floor_ms": 5,
+  "wind_ceiling_ms": 9,
+  "grid_limit_m": 20000,
+  "min_usable_ha": 20,
+  "max_constraint_fraction": 0.5,
+  "min_wind_coverage": 0.95,
+  "weights": {"wind": 0.5, "grid": 0.3, "usable": 0.2},
+  "top_sites": 3
+}

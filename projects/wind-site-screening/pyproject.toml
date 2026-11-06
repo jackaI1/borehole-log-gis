@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "wind-site-screening"
+version = "0.1.0"
+description = "Reproducible Ontario wind-site screening with QGIS review maps"
+requires-python = ">=3.11"
+dependencies = ["geopandas>=1.0,<2", "rasterio>=1.4,<2", "numpy>=1.26,<3", "requests>=2.32,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.9"]
+
+[project.scripts]
+wind-screen = "wind_screen.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wind_screen"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

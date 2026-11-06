@@ -1,0 +1,32 @@
+[
+  {
+    "guideline_id": "HC-arsenic-2006",
+    "matrix": "groundwater",
+    "analyte": "arsenic",
+    "value": 0.010,
+    "unit": "mg/L",
+    "context": "Health Canada drinking-water MAC; illustrative potable-groundwater screening only",
+    "source_url": "https://www.canada.ca/en/health-canada/services/publications/healthy-living/guidelines-canadian-drinking-water-quality-guideline-technical-document-arsenic/page-2-guidelines-canadian-drinking-water-quality-guideline-technical-document-arsenic.html",
+    "checked_on": "2026-11-05"
+  },
+  {
+    "guideline_id": "HC-benzene-2009",
+    "matrix": "groundwater",
+    "analyte": "benzene",
+    "value": 0.005,
+    "unit": "mg/L",
+    "context": "Health Canada drinking-water MAC; illustrative potable-groundwater screening only",
+    "source_url": "https://www.canada.ca/en/health-canada/services/publications/healthy-living/guidelines-canadian-drinking-water-quality-guideline-technical-document-benzene/page-3-guidelines-canadian-drinking-water-quality-guideline-technical-document-benzene.html",
+    "checked_on": "2026-11-05"
+  },
+  {
+    "guideline_id": "CCME-arsenic-residential",
+    "matrix": "soil",
+    "analyte": "arsenic",
+    "value": 12.0,
+    "unit": "mg/kg",
+    "context": "CCME residential/parkland soil, dry weight; soil texture differentiation not applicable",
+    "source_url": "https://ccme.ca/en/chemical/9",
+    "checked_on": "2026-11-05"
+  }
+]
