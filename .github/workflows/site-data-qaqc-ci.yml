@@ -42,7 +42,7 @@ jobs:
 
         cd "$RUNNER_TEMP"
 
-        "$RUNNER_TEMP/site-wheel/bin/site-qaqc" "$GITHUB_WORKSPACE"/data/synthetic/*.csv --out "$RUNNER_TEMP/site-demo"
+        "$RUNNER_TEMP/site-wheel/bin/site-qaqc" "$GITHUB_WORKSPACE"/projects/site-data-qaqc/data/synthetic/*.csv --out "$RUNNER_TEMP/site-demo"
 
         "$RUNNER_TEMP/site-wheel/bin/python" -c ''import json,os; from pathlib import Path; s=json.loads((Path(os.environ["RUNNER_TEMP"])/"site-demo/summary.json").read_text());
         assert s["counts"]["results"]==17 and s["counts"]["rejected"]==6 and s["screening"]["exceeds"]==7''
@@ -51,7 +51,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: synthetic-site-reports-python-${{ matrix.python }}
-        path: projects/site-data-qaqc/${{ runner.temp }}/site-demo
+        path: ${{ runner.temp }}/site-demo
     timeout-minutes: 20
 defaults:
   run:
