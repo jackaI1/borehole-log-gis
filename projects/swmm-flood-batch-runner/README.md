@@ -2,6 +2,8 @@
 
 I built a stormwater comparison tool because I wanted to learn how sewer capacity and downhill street flow affect the same storm. I can also list modeled surface results near boreholes from my log checker so I can review the ground records alongside the drainage results.
 
+I use synthetic inputs so the example can be reproduced without downloading municipal data.
+
 ## Try it
 
 With [uv](https://docs.astral.sh/uv/getting-started/installation/) installed, run these commands on macOS or Linux. uv installs Python 3.11 and the packages the model needs.

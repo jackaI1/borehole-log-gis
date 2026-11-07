@@ -2,6 +2,8 @@
 
 I built a pipe-flow and relief-valve calculator to learn how the underlying idea works. This is a learning project.
 
+The bundled calculations use illustrative pipe and relief-sizing inputs.
+
 ## Try it
 
 With Python 3.10 or newer installed, clone this repository and run:
