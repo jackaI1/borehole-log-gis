@@ -2,6 +2,8 @@
 
 I built a pipe-flow and relief-valve calculator to learn how the underlying idea works. This is a learning project.
 
+The bundled calculations use illustrative pipe and relief-sizing inputs.
+
 ## Try it
 
 With Python 3.10 or newer installed, clone this repository and run:
@@ -57,6 +59,7 @@ The package separates the hydraulic model, relief equations and JSON/report inte
 There are 4 test source files in this copy. No test pass count is claimed here: I have not re-run the project suite as part of this move. This is a source snapshot, and running it on a new machine may need environment-specific setup.
 
 
-Project checks run from this directory through the path-filtered hub workflows: (removed workflow).
 
 The relocated workflow did not complete successfully within the migration batch. Local test sources remain available.
+
+I did not retain a project-specific GitHub Actions workflow. The test sources remain in this folder for local use.
