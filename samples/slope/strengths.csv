@@ -1,0 +1,5 @@
+pattern,unit_weight_kn_m3,cohesion_kpa,friction_deg,note
+MADE GROUND,18.0,0,30,Illustrative value for the workflow; not measured at this site
+CLAY,19.5,8,26,Illustrative value for the workflow; not measured at this site
+GRAVEL,20.0,0,34,Illustrative value for the workflow; not measured at this site
+BOULDER,,,,No value supplied: the analysis reports this layer instead of guessing

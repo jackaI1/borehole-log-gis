@@ -24,6 +24,7 @@ water = [
 [project.scripts]
 borehole-gis = "borehole_gis.cli:main"
 site-water = "borehole_gis.water_cli:main"
+site-slope = "borehole_gis.slope_cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

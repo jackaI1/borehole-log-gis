@@ -1,0 +1,52 @@
+{
+  "description": "Illustrative 2H:1V cut, 5 m high, through the BGS BH01 log; geometry and datum are invented for the example",
+  "borehole": "BH01",
+  "borehole_x": -5.0,
+  "borehole_elevation": 100.0,
+  "ground_surface": [
+    [
+      -30.0,
+      100.0
+    ],
+    [
+      0.0,
+      100.0
+    ],
+    [
+      10.0,
+      95.0
+    ],
+    [
+      40.0,
+      95.0
+    ]
+  ],
+  "water_table": [
+    [
+      -30.0,
+      98.0
+    ],
+    [
+      40.0,
+      98.0
+    ]
+  ],
+  "analysis_bottom": 94.0,
+  "search": {
+    "centres_x": [
+      -12,
+      6,
+      19
+    ],
+    "centres_z": [
+      96,
+      112,
+      17
+    ],
+    "radii": [
+      3,
+      14,
+      12
+    ]
+  }
+}
