@@ -4,7 +4,7 @@ I built a borehole log checker because I wanted to see where public ground recor
 
 I can give it a public BC borehole CSV or an AGS4 file, a common text format for exchanging ground investigation records. It produces a readable error report, layer summaries, a location map file, and a picture of each log. When penetration test results are available, it plots the recorded N-values, the number of blows measured in a Standard Penetration Test (SPT).
 
-I also use this project to learn how ground and water calculations fit together. I can assess recovered rock-core pieces, fit a pumping test to estimate aquifer properties, compare sewer and street flooding, check a pipe network's pressures and fire flow, and generate river profiles around a culvert. The [ground and water guide](docs/water-models.md) has exact commands, sample inputs and the limits of each calculation. These are reproducible learning examples, not a design for a real site.
+I also use this project to learn how ground and water calculations fit together. I can check how stable a slope is using the soil layers from a borehole log, assess recovered rock-core pieces, fit a pumping test to estimate aquifer properties, compare sewer and street flooding, check a pipe network's pressures and fire flow, and generate river profiles around a culvert. The [ground and water guide](docs/water-models.md) has exact commands, sample inputs and the limits of each calculation. These are reproducible learning examples, not a design for a real site.
 
 To try the included public BC data with Python 3.11 or newer and [uv](https://docs.astral.sh/uv/):
 
@@ -56,6 +56,24 @@ The BC CSV contains 17 original intervals from four boreholes in the Province of
 
 The AGS excerpt comes from the [BGS public example collection](https://britishgeologicalsurvey.github.io/pyagsapi/#example-files). I kept BH01's observation cells and replaced the administration groups with minimal excerpt metadata. Both samples have source URLs, retrieval dates, licences and checksums in `samples/*.source.json`. BC data uses the Open Government Licence - British Columbia. The BGS sample contains data supplied by Natural Environment Research Council and public sector information licensed under the Open Government Licence v3.0. [Source notes](docs/data.md) explain the extraction and how to refresh it.
 
+## Check a slope from the borehole layers
+
+A slope can slide if the soil on it is too weak for the weight above it. I wanted a way to test a slope using the soil layers I already parse from a borehole, so I added `site-slope`. It takes the layers from the log, the unit weight (how heavy the soil is), the cohesion (how well the soil holds itself together) and the friction angle (how much the grains resist sliding over each other) for each soil type, and a simple cross-section of the ground. It then tries many possible curved slip surfaces and reports the lowest factor of safety. A factor of safety above 1 means the slope resists sliding; below 1 means it fails in the model.
+
+It uses Bishop's simplified method, a standard textbook way to slice the soil above a circular slip surface and balance the forces on each slice. It also includes a water table, because water in the ground pushes the soil apart and makes sliding more likely. The tool is a free stand-in for commercial programs such as Slide and Slope/W, and it is a learning tool, not a design check.
+
+The strength values are not in the borehole log, so I keep them in a small table, `strengths.csv`. If a soil type has no values, the tool does not guess. It marks that layer, leaves out the surfaces that pass through it, and says so in the report. Blank values stay blank.
+
+```sh
+uv run site-slope --log samples/bgs_bh01.ags --format ags --crs EPSG:27700 \
+  --strengths samples/slope/strengths.csv --section samples/slope/section.json \
+  --out build/slope
+```
+
+The sample uses the BGS borehole and an invented 5 m cut. Its strength values are illustrative, not measured on that site. The run finds a critical factor of safety of 1.49 and writes `report.json` with the surface's centre and radius, `surfaces.csv` with every surface tried, `critical_slices.csv` with the slices, and `section.png`, a picture of the cross-section with the critical circle and water table. The [slope notes](docs/slope-stability.md) describe the input format, the method, the output status codes and the limits.
+
+To check the method, the tests compare the code with two published results: the infinite-slope formula, and Taylor's chart for a 45 degree slope in clay, where the stability number is about 0.181. The search gives 0.181.
+
 ## Inside the tool
 
 I split the Python package into readers, a shared data model, depth validation, and exports. The AGS reader understands grouped quoted CSV records, including commas and line breaks inside descriptions. It checks the five required administration groups plus the location and geology groups needed for this workflow, their metadata, and declared units and types. It supports `LOCA`, `GEOL` and optional `ISPT` observations. It is a focused AGS4 reader, not a full AGS standards validator; I link the full checker and supported limits in [the usage notes](docs/usage.md).
@@ -70,7 +88,7 @@ uv run ruff check .
 uv build
 ```
 
-The original 61 pytest cases cover both real samples, malformed records, missing groups and headings, units, depth conversion, overlaps, gaps, nested intervals, orphan records, SPT values and end-to-end GeoPackage and image exports. GitHub Actions runs these checks on Python 3.11, 3.12 and 3.13. The expanded suite has 108 cases including core-run checks, pumping and recovery fits, real EPANET runs and river-profile extraction. A separate Ubuntu job installs real QGIS, renders both maps, and reopens the saved BC project to check its layer, CRS, styling, labels and layout. It also checks that the exported PDF and PNG contain output.
+The original 61 pytest cases cover both real samples, malformed records, missing groups and headings, units, depth conversion, overlaps, gaps, nested intervals, orphan records, SPT values and end-to-end GeoPackage and image exports. GitHub Actions runs these checks on Python 3.11, 3.12 and 3.13. The expanded suite has 108 cases including core-run checks, pumping and recovery fits, real EPANET runs and river-profile extraction. The 22 slope tests add the closed-form and Taylor chart checks, missing-strength handling, and an end-to-end run of the sample. A separate Ubuntu job installs real QGIS, renders both maps, and reopens the saved BC project to check its layer, CRS, styling, labels and layout. It also checks that the exported PDF and PNG contain output.
 
 
 ## Other things I've built here
